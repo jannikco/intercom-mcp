@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "product": "pipmcp",
+  "credential": "PIPMCP_API_KEY",
+  "skills": [
+    {
+      "name": "pipmcp-intercom",
+      "description": "Connect AI agents to Intercom using one PipMCP API key and actual hosted tool discovery."
+    }
+  ],
+  "files": {
+    "skills/pipmcp-intercom/SKILL.md": "5a5b158698d10b8f7dbd0c028a0eddf344f830cdf0de4b9f33cd0a00d1720a6e"
+  }
+}

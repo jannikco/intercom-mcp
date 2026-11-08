@@ -1,350 +1,60 @@
 {
   "schemaVersion": 1,
-  "status": "ready",
-  "verification": "mock-only",
-  "releaseEligible": true,
-  "maintainer": "jannikco",
-  "license": "MIT",
-  "sourceRevision": "1d128d90df109262214a7bf8ee587c77d928207e44cdb43019c0020cf58caba4",
-  "evidence": [
-    "Actual tools/call and direct-provider request contract tests"
-  ],
-  "provenance": [
-    "https://raw.githubusercontent.com/intercom/Intercom-OpenAPI/main/descriptions/2.15/api.intercom.io.yaml"
-  ],
   "id": "intercom-mcp",
   "kind": "provider-connector",
   "product": "pipmcp",
   "title": "Intercom MCP server",
-  "description": "Find support contacts and add a new lead contact without sending an outbound message.",
-  "operationIds": [
-    "intercom_list_contacts",
-    "intercom_get_contact",
-    "intercom_create_contact"
+  "description": "Use Intercom with AI agents through one PipMCP API key, actual hosted schemas and governed execution.",
+  "status": "ready",
+  "verification": "mock-only",
+  "releaseEligible": true,
+  "operationIds": [],
+  "maintainer": "jannikco",
+  "license": "MIT",
+  "attributionSlug": "github-intercom-mcp",
+  "sourceRevision": "ab2ac192518ceac67d94cea7187463d728aae16cecd96bbe857443d90d4989f9",
+  "qualityVersion": 2,
+  "artifactType": "connector",
+  "evidence": [
+    "Gateway HTTP transport fixtures",
+    "Generated stdio wrapper discovery/call fixtures"
   ],
+  "provenance": [
+    "https://raw.githubusercontent.com/intercom/Intercom-OpenAPI/main/descriptions/2.15/api.intercom.io.yaml"
+  ],
+  "utility": {
+    "problem": "Find support contacts and add a new lead contact without sending an outbound message.",
+    "output": "Actual hosted tool schemas and durable governed execution receipts"
+  },
   "appSlug": "intercom",
   "appName": "Intercom",
-  "providerDocs": "https://raw.githubusercontent.com/intercom/Intercom-OpenAPI/main/descriptions/2.15/api.intercom.io.yaml",
-  "providerWebsite": "https://www.intercom.com/",
-  "authentication": {
-    "type": "bearer",
-    "requiredCredentialFields": [
-      "token"
-    ],
-    "settings": {},
-    "requiredHeaderNames": [],
-    "helpUrl": "https://developers.intercom.com/docs/build-an-integration/learn-more/authentication",
-    "tenantRequired": false,
-    "accountParameterNames": []
-  },
-  "attributionSlug": "github-intercom-mcp",
-  "artifactType": "connector",
-  "qualityVersion": 2,
   "connectorId": "intercom",
-  "connector": {
-    "id": "intercom",
-    "name": "Intercom",
-    "version": "0.1.0",
-    "baseUrl": "https://api.intercom.io",
-    "auth": {
-      "type": "bearer",
-      "env": "INTERCOM_ACCESS_TOKEN"
-    },
-    "tools": [
-      {
-        "name": "intercom_list_contacts",
-        "description": "intercom list contacts",
-        "method": "GET",
-        "path": "/contacts",
-        "readOnly": true,
-        "inputSchema": {
-          "type": "object",
-          "properties": {
-            "per_page": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 150
-            }
-          },
-          "required": [],
-          "additionalProperties": false
-        },
-        "bindings": {
-          "path": [],
-          "query": {
-            "per_page": "per_page"
-          },
-          "body": {}
-        },
-        "approvalRequired": false,
-        "provenance": [
-          "https://raw.githubusercontent.com/intercom/Intercom-OpenAPI/main/descriptions/2.15/api.intercom.io.yaml"
-        ],
-        "evidence": {
-          "state": "documented",
-          "providerLiveValidation": "not-run"
-        },
-        "sampleArguments": {}
-      },
-      {
-        "name": "intercom_get_contact",
-        "description": "intercom get contact",
-        "method": "GET",
-        "path": "/contacts/{contact_id}",
-        "readOnly": true,
-        "inputSchema": {
-          "type": "object",
-          "properties": {
-            "contact_id": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "contact_id"
-          ],
-          "additionalProperties": false
-        },
-        "bindings": {
-          "path": [
-            "contact_id"
-          ],
-          "query": {},
-          "body": {}
-        },
-        "approvalRequired": false,
-        "provenance": [
-          "https://raw.githubusercontent.com/intercom/Intercom-OpenAPI/main/descriptions/2.15/api.intercom.io.yaml"
-        ],
-        "evidence": {
-          "state": "documented",
-          "providerLiveValidation": "not-run"
-        },
-        "sampleArguments": {
-          "contact_id": "REPLACE_WITH_AUTHORIZED_CONTACT_ID"
-        }
-      },
-      {
-        "name": "intercom_create_contact",
-        "description": "intercom create contact",
-        "method": "POST",
-        "path": "/contacts",
-        "readOnly": false,
-        "inputSchema": {
-          "type": "object",
-          "properties": {
-            "email": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "email"
-          ],
-          "additionalProperties": false
-        },
-        "bindings": {
-          "path": [],
-          "query": {},
-          "body": {
-            "email": "email",
-            "name": "name"
-          }
-        },
-        "approvalRequired": true,
-        "body": {
-          "role": "lead"
-        },
-        "provenance": [
-          "https://raw.githubusercontent.com/intercom/Intercom-OpenAPI/main/descriptions/2.15/api.intercom.io.yaml"
-        ],
-        "evidence": {
-          "state": "documented",
-          "providerLiveValidation": "not-run"
-        },
-        "sampleArguments": {
-          "email": "sandbox@example.com"
-        }
-      }
-    ],
-    "workflow": {
-      "name": "intercom-workflow",
-      "description": "Find support contacts and add a new lead contact without sending an outbound message.",
-      "steps": [
-        "intercom_list_contacts",
-        "intercom_get_contact",
-        "intercom_create_contact"
-      ]
-    },
-    "provenance": [
-      "https://raw.githubusercontent.com/intercom/Intercom-OpenAPI/main/descriptions/2.15/api.intercom.io.yaml"
-    ],
-    "sourceEvidence": {
-      "state": "documented",
-      "providerLiveValidation": "not-run",
-      "checkedAt": "2026-11-08",
-      "operationCount": 3,
-      "kind": "official-openapi",
-      "sha256": "7084dbd866b07e7e9f02bb5b5126b11ce42281c5cc40067af74523280f122421"
-    },
-    "setup": {
-      "requiresPipMcpAccount": false,
-      "credentialsHelpUrl": "https://developers.intercom.com/docs/build-an-integration/learn-more/authentication",
-      "instructions": "In Intercom, open the Developer Hub and create a new app for your workspace. Copy the Access Token from Configure → Authentication."
-    },
-    "headers": {
-      "Intercom-Version": "2.15"
-    },
-    "baseUrlOptions": [
-      "https://api.intercom.io",
-      "https://api.eu.intercom.io",
-      "https://api.au.intercom.io"
-    ],
-    "sampleWarning": "Example IDs are placeholders, not known provider records. Replace them with authorized sandbox/account IDs. Contact emails, file URLs and recipient numbers must be replaced with data you are authorized to use. Examples never authorize a write.",
-    "repoId": "intercom-mcp",
-    "appSlug": "intercom",
-    "product": "pipmcp",
-    "artifactType": "connector",
-    "sourceRevision": "1d128d90df109262214a7bf8ee587c77d928207e44cdb43019c0020cf58caba4",
-    "capabilityEvidence": {
-      "local": {
-        "level": "Tested",
-        "operations": [
-          {
-            "name": "intercom_list_contacts",
-            "level": "Tested",
-            "evidenceRefs": [
-              "Provider request/stdio contract tests"
-            ],
-            "method": "contract-fixture"
-          },
-          {
-            "name": "intercom_get_contact",
-            "level": "Tested",
-            "evidenceRefs": [
-              "Provider request/stdio contract tests"
-            ],
-            "method": "contract-fixture"
-          },
-          {
-            "name": "intercom_create_contact",
-            "level": "Tested",
-            "evidenceRefs": [
-              "Provider request/stdio contract tests"
-            ],
-            "method": "contract-fixture"
-          }
-        ],
-        "evidenceRefs": [
-          "Provider request/stdio contract tests"
-        ],
-        "mode": "local"
-      },
-      "managed": {
-        "level": "Documented",
-        "operations": [
-          {
-            "name": "intercom_list_contacts",
-            "level": "Documented",
-            "evidenceRefs": [],
-            "method": "documentation"
-          },
-          {
-            "name": "intercom_get_contact",
-            "level": "Documented",
-            "evidenceRefs": [],
-            "method": "documentation"
-          },
-          {
-            "name": "intercom_create_contact",
-            "level": "Documented",
-            "evidenceRefs": [],
-            "method": "documentation"
-          }
-        ],
-        "evidenceRefs": [],
-        "mode": "managed"
-      }
-    },
-    "authentication": {
-      "type": "bearer",
-      "requiredCredentialFields": [
-        "token"
-      ],
-      "settings": {},
-      "requiredHeaderNames": [],
-      "helpUrl": "https://developers.intercom.com/docs/build-an-integration/learn-more/authentication",
-      "tenantRequired": false,
-      "accountParameterNames": []
-    },
-    "managedAvailability": {
-      "status": "listed",
-      "checkedAt": "2026-11-08T12:29:10.433747+00:00"
-    }
-  },
+  "executionAuthority": "pipmcp-gateway",
+  "version": "1.0.0",
+  "agentReady": true,
   "capabilityEvidence": {
     "local": {
       "level": "Tested",
       "operations": [
         {
-          "name": "intercom_list_contacts",
+          "name": "gateway_transport",
           "level": "Tested",
+          "method": "contract-fixture",
           "evidenceRefs": [
-            "Provider request/stdio contract tests"
-          ],
-          "method": "contract-fixture"
-        },
-        {
-          "name": "intercom_get_contact",
-          "level": "Tested",
-          "evidenceRefs": [
-            "Provider request/stdio contract tests"
-          ],
-          "method": "contract-fixture"
-        },
-        {
-          "name": "intercom_create_contact",
-          "level": "Tested",
-          "evidenceRefs": [
-            "Provider request/stdio contract tests"
-          ],
-          "method": "contract-fixture"
+            "Generated gateway/stdio fixtures"
+          ]
         }
       ],
       "evidenceRefs": [
-        "Provider request/stdio contract tests"
+        "Generated gateway/stdio fixtures"
       ],
       "mode": "local"
     },
     "managed": {
       "level": "Documented",
-      "operations": [
-        {
-          "name": "intercom_list_contacts",
-          "level": "Documented",
-          "evidenceRefs": [],
-          "method": "documentation"
-        },
-        {
-          "name": "intercom_get_contact",
-          "level": "Documented",
-          "evidenceRefs": [],
-          "method": "documentation"
-        },
-        {
-          "name": "intercom_create_contact",
-          "level": "Documented",
-          "evidenceRefs": [],
-          "method": "documentation"
-        }
-      ],
+      "operations": [],
       "evidenceRefs": [],
       "mode": "managed"
     }
-  },
-  "utility": {
-    "problem": "Find support contacts and add a new lead contact without sending an outbound message.",
-    "output": "Actual provider API results through local MCP tools"
   }
 }
