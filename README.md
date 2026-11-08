@@ -1,49 +1,69 @@
-# Intercom MCP setup and connection checker
+# Intercom MCP server
 
-Generate Intercom MCP client configuration, inspect available tools and validate hosted endpoint access through PipMCP.
+Find support contacts and add a new lead contact without sending an outbound message.
 
-Maintainer: jannikco · License: MIT · Verification: **mock-only**
+A direct-provider MCP server with useful local execution. No PipMCP account is required for local use. Provider API access and any provider charges are your responsibility.
 
 ## Quick start
 
-Requires Node.js 22 or later.
+Requires Node.js22+. Clone this repository, then run:
 
 ```sh
-npm ci
+npm ci --ignore-scripts
 npm test
 npm start
 ```
 
-The default example runs locally without credentials and makes no external changes. Verification status describes recorded evidence; local configuration tests do not establish that provider authentication or execution works.
+The default command inspects the tools offline. Configure your own credentials in your environment:
 
-## Connect intercom
+- `INTERCOM_ACCESS_TOKEN`
 
-[Create or sign in to PipMCP](https://pipmcp.com/register?app=intercom&utm_source=github&utm_campaign=github-intercom-mcp) and select the integration. Connect your authorized provider account and copy its hosted MCP endpoint. Set PIPMCP_ENDPOINT and, if required, PIPMCP_TOKEN in your environment. Run npm start to produce client configuration; run npm start -- --live for a read-only connection check. Provider app presence is catalog evidence, not live verification.
 
-## Managed service
 
-[Continue with PipMCP](https://pipmcp.com/register?app=intercom&utm_source=github&utm_campaign=github-intercom-mcp). This repository is maintained by the integration team and does not imply endorsement by LinkedIn or other providers.
+Credential help: https://developers.intercom.com/docs/build-an-integration/learn-more/authentication
 
-## Provenance and support
+## Execute a real read
 
-Source revision: 7e3c31756d43be244370da2c0bd73cd180c335774a505230499984a7d9e8a058. The complete manifest is in integration.json; SHA256SUMS covers the reviewed artifact. Open a repository issue without credentials or personal data. See SECURITY.md for sensitive reports. No telemetry is sent by this code; signup links include explicit campaign parameters.
+Replace example record IDs with records you are authorized to access.
 
-## Provider setup inventory
-
-Run `npm start -- --setup` to inspect this app's recorded authentication requirements and setup links offline. Credentials are entered in PipMCP; this repository lists required field names only.
-
-```json
-{
-  "type": "bearer",
-  "requiredCredentialFields": [
-    "token"
-  ],
-  "requiredHeaderNames": [],
-  "helpUrl": "https://developers.intercom.com/docs/build-an-integration/learn-more/authentication",
-  "tenantRequired": false,
-  "accountParameterNames": []
-}
+```sh
+npm start -- --call intercom_list_contacts '{}'
 ```
 
-Provider documentation: https://raw.githubusercontent.com/intercom/Intercom-OpenAPI/main/descriptions/2.15/api.intercom.io.yaml
-Provider website: https://www.intercom.com/
+## Use with an MCP client
+
+Launch `node /absolute/path/intercom-mcp/server.mjs` using stdio transport; pass credentials through the client environment. Stdout is reserved for JSON-RPC.
+
+## Tools
+
+| Tool | Effect | Purpose |
+| --- | --- | --- |
+| intercom_list_contacts | Read | intercom list contacts |
+| intercom_get_contact | Read | intercom get contact |
+| intercom_create_contact | Explicit approval required | intercom create contact |
+
+## Concrete workflow
+
+Find support contacts and add a new lead contact without sending an outbound message.
+
+1. intercom_list_contacts
+2. intercom_get_contact
+3. intercom_create_contact
+
+## Optional writes
+
+Writes are disabled by default. Set CONNECTOR_ALLOW_WRITES=true and supply `_approval: {approved:true,idempotencyKey:"unique-request-id"}` on the specific call. Do not reuse a key for a different request. Uncertain outcomes are never automatically replayed; inspect the provider before another attempt.
+
+## Capability evidence
+
+Local: **Tested — HTTP fixtures and real stdio tools/call**. Managed: **Documented**. Provider authentication and live operations have not been established by these fixture tests. Evidence applies per operation and execution mode; setup discovery does not imply provider execution.
+
+## Managed production
+
+[Activate with PipMCP](https://pipmcp.com/github/start?app=intercom&integration=intercom-mcp&utm_source=github&utm_campaign=github-intercom-mcp&utm_content=readme) when you want the hosted service.  Local credentials are not uploaded by this code. Review provider permissions in the managed onboarding. [Directory and related projects](https://jannikco.github.io/pipmcp-connectors/integrations/intercom/).
+
+## Provenance and maintenance
+
+- https://raw.githubusercontent.com/intercom/Intercom-OpenAPI/main/descriptions/2.15/api.intercom.io.yaml
+
+Maintainer:jannikco. MIT license for this code. See connector.json for selected operations and integration.json for evidence. Runtime dependencies retain their own licenses. Report sensitive issues through https://pipmcp.com/contact; do not post credentials or customer data in public issues.
